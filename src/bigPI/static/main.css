@@ -86,7 +86,7 @@
         .signature {
             text-align: right;
             margin-top: 15px; /* Increased margin */
-            font-style: italic;
+            /*font-style: italic;*/
             font-size: 1.1em; /* Increased font size */
         }
         input, textarea {
