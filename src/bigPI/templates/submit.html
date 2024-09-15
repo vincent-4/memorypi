@@ -61,7 +61,7 @@
             position: relative;
             z-index: 2;
             flex-shrink: 0;
-            margin-bottom: 20px;
+            margin-top: 30px;
         }
         .header-text h1, .header-text h2 {
             margin: 0;
@@ -116,6 +116,8 @@
         .swipe-disclaimer {
             text-align: center;
             font-size: 1.4em;
+            font-family: 'Monogram', monospace;
+            font-size: 30px; /* Increased base font size */
             color: rgba(0, 0, 0, 0.7);
             margin-top: 10px;
         }
@@ -167,6 +169,8 @@
         <div class="circle circle-1"></div>
         <div class="circle circle-2"></div>
         <img id="patterns" src="{{url_for('static', filename='art/bottompattern.png')}}" style="position: fixed; bottom: 50%; transform: translate(0,100%);">
+        <img id="sparkles1" src="{{url_for('static', filename='art/sparkles.png')}}" style="position: fixed; width:50px; height: auto; transform:translate(-200%, -300%);">
+        <img src="{{url_for('static', filename='art/sparkles2.png')}}" style="position: fixed; width:100px; height: auto; transform:translate(0, -70%)">
         <div class="content">
             <div class="header-text">
                 <h1>submit a message,</h1>
@@ -176,7 +180,7 @@
                 <img src="{{ url_for('static', filename='art/lollipop.png') }}" alt="Lollipop" class="lollipop">
                 <div class="message-box-container">
                     <form action="/submit" method="POST">
-                        <textarea id="message" name="message" rows="4" placeholder="Here you can write whatever, just don't make it TOO long :)" required></textarea>
+                        <textarea id="message" name="message" rows="4" placeholder="Here you can write whatever your heart desires! :)" required></textarea>
                         <input type="text" id="name" name="name" placeholder="[name] from [place]!" required>
                         <input type="datetime-local" id="datetime" name="datetime" required>
                         <div class="canvas-container">
