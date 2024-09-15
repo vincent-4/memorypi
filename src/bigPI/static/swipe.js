@@ -16,8 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('mouseup', endDrag);
 
     function startDrag(e) {
-        // Prevent dragging if the event target is the canvas or its child
-        if (e.target === canvas || canvas.contains(e.target)) {
+        // Allow interaction with input elements and the canvas
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target === canvas || canvas.contains(e.target)) {
             return;
         }
         e.preventDefault(); // Prevent default touch behavior
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function drag(e) {
-        if (!isDragging) return;
+        if (!isDragging || e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
         e.preventDefault();
         currentY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
         const deltaY = startY - currentY;
@@ -91,8 +91,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.querySelector('#name').value = '';
                 document.querySelector('#datetime').value = '';
                 document.querySelector('#pixelData').value = '';
-                // Trigger candy rain
+                // Trigger candy rain and cake animation
                 createCandyRain();
+                showCakeAnimation();
             } else {
                 console.error('Failed to send message');
                 alert('Failed to send message. Please try again.');
@@ -102,6 +103,39 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Error:', error);
             alert('An error occurred. Please try again.');
         });
+    }
+
+    function showCakeAnimation() {
+        const cake = document.getElementById('cakeImage');
+        const screenWidth = window.innerWidth;
+        const screenHeight = window.innerHeight;
+        const cakeSize = Math.min(screenWidth, screenHeight) * (CAKE_SIZE_PERCENTAGE / 100);
+
+        cake.style.display = 'block';
+        cake.style.width = `${cakeSize}px`;
+        cake.style.height = 'auto';
+        
+        // Pop out animation
+        setTimeout(() => {
+            cake.style.transition = 'transform 0.5s ease-out';
+            cake.style.transform = 'translate(-50%, -50%) scale(1)';
+        }, 100);
+
+        // Pause for 2 seconds
+        setTimeout(() => {
+            // Fade out animation
+            cake.style.transition = 'opacity 1s ease-out';
+            cake.style.opacity = '0';
+        }, 2100);
+
+        // Hide cake and reset opacity
+        setTimeout(() => {
+            cake.style.display = 'none';
+            cake.style.opacity = '1';
+            cake.style.transform = 'translate(-50%, -50%) scale(0)';
+            // Load new message menu
+            resetPosition();
+        }, 3100);
     }
 
     function resetPosition() {
@@ -138,3 +172,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 });
+
+// Configuration for cake size (percentage of screen width)
+const CAKE_SIZE_PERCENTAGE = 250; // Adjust this value to change the cake size

@@ -152,11 +152,17 @@
                 transform: translateY(100vh) rotate(360deg);
             }
         }
+        #cakeImage {
+            max-width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
     </style>
     <script src="{{ url_for('static', filename='swipe.js') }}"></script>
 </head>
 <body>
     <div id="candyContainer"></div>
+    <img id="cakeImage" src="{{ url_for('static', filename='art/cake.png') }}" alt="Cake" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); z-index: 10000;">
     <div class="container">
         <div class="circle circle-1"></div>
         <div class="circle circle-2"></div>
