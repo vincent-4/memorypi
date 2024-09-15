@@ -175,8 +175,8 @@
                 <img src="{{ url_for('static', filename='art/lollipop.png') }}" alt="Lollipop" class="lollipop">
                 <div class="message-box-container">
                     <form action="/submit" method="POST">
-                        <textarea id="message" name="message" rows="4" placeholder="Your message" required></textarea>
-                        <input type="text" id="name" name="name" placeholder="Your name" required>
+                        <textarea id="message" name="message" rows="4" placeholder="Here you can write whatever, just don't make it TOO long :)" required></textarea>
+                        <input type="text" id="name" name="name" placeholder="[name] from [place]!" required>
                         <input type="datetime-local" id="datetime" name="datetime" required>
                         <div class="canvas-container">
                             <canvas id="drawingCanvas" width="30" height="30" style="width: 200px; height: 200px;"></canvas>
