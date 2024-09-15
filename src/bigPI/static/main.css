@@ -1,0 +1,156 @@
+        @font-face {
+            font-family: 'Monogram';
+            src: url('/static/fonts/monogram.ttf') format('truetype');
+        }
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Monogram', monospace;
+            font-size: 20px; /* Increased base font size */
+        }
+        .container {
+            background-color: rgba(61, 59, 86, 0.8);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+        }
+        .circle-1 {
+            width: 225px; /* Increased size */
+            height: 225px; /* Increased size */
+            background-color: #9796b6;
+            top: 10%;
+            right: 10%;
+        }
+        .circle-2 {
+            width: 150px; /* Increased size */
+            height: 150px; /* Increased size */
+            background-color: white;
+            bottom: 15%;
+            left: 10%;
+        }
+        .content {
+            z-index: 1;
+            text-align: center;
+            color: #d0c9ff;
+            max-width: 90%; /* Increased max-width */
+        }
+        h1 {
+            font-size: 3.5em; /* Increased font size */
+            margin-bottom: 0;
+        }
+        h2 {
+            font-size: 2.5em; /* Increased font size */
+            font-weight: normal;
+            margin-top: 0.7em; /* Slightly increased margin */
+        }
+        .message-box {
+            background-color: rgba(165, 173, 216, 0.9);
+            border-radius: 15px; /* Increased border radius */
+            padding: 30px; /* Increased padding */
+            margin-top: 30px; /* Increased margin */
+            text-align: left;
+            color: #333;
+            font-family: 'mgram', monospace;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+            user-select: none;
+            touch-action: pan-y;
+        }
+        .quote {
+            position: absolute;
+            font-size: 5em; /* Increased font size */
+            color: #beb6ff;
+            opacity: 0.5;
+        }
+        .quote-left {
+            top: -30px; /* Adjusted position */
+            left: -15px; /* Adjusted position */
+        }
+        .quote-right {
+            bottom: -75px; /* Adjusted position */
+            right: -15px; /* Adjusted position */
+        }
+        .signature {
+            text-align: right;
+            margin-top: 15px; /* Increased margin */
+            /*font-style: italic;*/
+            font-size: 1.1em; /* Increased font size */
+        }
+        input, textarea {
+            font-family: 'Monogram', monospace;
+            font-size: 1.2em;
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+            outline: none;
+            border: none;
+            border-radius: 5px;
+        }
+        /* Optionally, add styles for focus state */
+        input:focus, textarea:focus {
+            border: 1px solid #9fb9fa; /* Add a subtle border when focused */
+        }
+        button {
+            font-family: 'Monogram', monospace;
+            font-size: 1.2em;
+            background-color: #9796b6;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #a49fc9;
+        }
+        #candyContainer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        .candy {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-image: url("{{ url_for('static', filename='art/candy.png') }}");
+            background-size: contain;
+            background-repeat: no-repeat;
+            animation: fall linear;
+        }
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+
+        ::-webkit-input-placeholder {
+            font-style: italic;
+         }
+         :-moz-placeholder {
+            font-style: italic;  
+         }
+         ::-moz-placeholder {
+            font-style: italic;  
+         }
+         :-ms-input-placeholder {  
+            font-style: italic; 
+         }

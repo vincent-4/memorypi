@@ -5,46 +5,321 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Submit a Message</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
-
-
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            background-image: url("{{ url_for('static', filename='communicator_thing.png') }}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+        }
+        .circle-1 {
+            top: 5%;
+            right: 5%;
+            width: 100px;
+            height: 100px;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .circle-2 {
+            bottom: 15%;
+            left: 10%;
+            width: 200px;
+            height: 200px;
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+        .lollipop {
+            position: absolute;
+            bottom: auto;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: auto;
+            z-index: -1;
+        }
+        .content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 1;
+        }
+        .header-text {
+            text-align: left;
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+            flex-shrink: 0;
+            margin-top: 30px;
+        }
+        .header-text h1, .header-text h2 {
+            margin: 0;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        .message-box {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            z-index: 1;
+            position: relative;
+        }
+        .message-box-container {
+            background-color: rgba(249, 235, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            position: relative;
+        }
+        .canvas-container {
+            display: flex;
+            align-items: flex-start;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        #drawingCanvas {
+            border: 1px solid #000;
+            background-color: white;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+            -ms-interpolation-mode: nearest-neighbor;
+        }
+        #clearCanvas {
+            background-color: rgba(255, 255, 255, 0.7);
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            font-size: 18px;
+            cursor: pointer;
+            display: none;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            margin-left: 10px;
+        }
+        #clearCanvas:hover {
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+        #clearCanvas.spin {
+            transform: rotate(360deg);
+        }
+        .swipe-disclaimer {
+            text-align: center;
+            font-size: 1.4em;
+            font-family: 'Monogram', monospace;
+            font-size: 30px; /* Increased base font size */
+            color: rgba(0, 0, 0, 0.7);
+            margin-top: 10px;
+        }
+        .swipe-arrow {
+            display: inline-block;
+            font-size: 1.2em;
+            margin-left: 5px;
+            animation: updown 1s ease-in-out infinite;
+        }
+        @keyframes updown {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        #candyContainer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        .candy {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-image: url("{{ url_for('static', filename='art/candy.png') }}");
+            background-size: contain;
+            background-repeat: no-repeat;
+            animation: fall linear;
+        }
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+        #cakeImage {
+            max-width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+    </style>
+    <script src="{{ url_for('static', filename='swipe.js') }}"></script>
 </head>
-<body class="bg-gray-100">
-    <div class="container mx-auto px-4 py-8">
-        <h1 class="text-3xl font-bold mb-6 text-center">Submit a Message</h1>
-        <form action="/submit" method="POST" class="max-w-lg mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-            <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
-                    Name:
-                </label>
-                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" id="name" name="name" required>
+<body>
+    <div id="candyContainer"></div>
+    <img id="cakeImage" src="{{ url_for('static', filename='art/cake.png') }}" alt="Cake" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); z-index: 10000;">
+    <div class="container">
+        <div class="circle circle-1"></div>
+        <div class="circle circle-2"></div>
+        <img id="patterns" src="{{url_for('static', filename='art/bottompattern.png')}}" style="position: fixed; bottom: 50%; transform: translate(0,100%);">
+        <img id="sparkles1" src="{{url_for('static', filename='art/sparkles.png')}}" style="position: fixed; width:50px; height: auto; transform:translate(-200%, -300%);">
+        <img src="{{url_for('static', filename='art/sparkles2.png')}}" style="position: fixed; width:100px; height: auto; transform:translate(0, -70%)">
+        <div class="content">
+            <div class="header-text">
+                <h1>submit a message,</h1>
+                <h2>share your thoughts...</h2>
             </div>
-            
-            <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="message">
-                    Message:
-                </label>
-                <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="message" name="message" rows="4" required></textarea>
-            </div>
-            
-            <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="datetime">
-                    Date and Time:
-                </label>
-                <div class="relative">
-                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                        <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
-                    </div>
-                    <input datepicker datepicker-buttons type="text" id="datetime" name="datetime" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5" placeholder="Select date and time" required>
+            <div class="message-box">
+                <img src="{{ url_for('static', filename='art/lollipop.png') }}" alt="Lollipop" class="lollipop">
+                <div class="message-box-container">
+                    <form action="/submit" method="POST">
+                        <textarea id="message" name="message" rows="4" placeholder="Here you can write whatever your heart desires! :)" required></textarea>
+                        <input type="text" id="name" name="name" placeholder="[name] from [place]!" required>
+                        <input type="datetime-local" id="datetime" name="datetime" required>
+                        <div class="canvas-container">
+                            <canvas id="drawingCanvas" width="30" height="30" style="width: 200px; height: 200px;"></canvas>
+                            <button id="clearCanvas" type="button">🗑️</button>
+                        </div>
+                        <input type="hidden" id="pixelData" name="pixelData">
+                        <div class="swipe-disclaimer">Swipe up to send your message <span class="swipe-arrow">↑</span></div>
+                    </form>
                 </div>
             </div>
-            
-            <div class="flex items-center justify-between">
-                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
-                    Submit
-                </button>
-            </div>
-        </form>
+        </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const canvas = document.getElementById('drawingCanvas');
+            const ctx = canvas.getContext('2d');
+            const clearButton = document.getElementById('clearCanvas');
+            const pixelDataInput = document.getElementById('pixelData');
+            let isDrawing = false;
+            const gridSize = 30;
+            const pixelSize = canvas.width / gridSize;
+            let pixelGrid = Array(gridSize).fill().map(() => Array(gridSize).fill(0));
+            let lastX, lastY;
 
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mouseout', stopDrawing);
+
+            canvas.addEventListener('touchstart', handleCanvasTouch);
+            canvas.addEventListener('touchmove', handleCanvasTouch);
+            canvas.addEventListener('touchend', handleCanvasTouch);
+
+            clearButton.addEventListener('click', clearCanvas);
+
+            function startDrawing(e) {
+                isDrawing = true;
+                [lastX, lastY] = getCoordinates(e);
+                drawPixel(lastX, lastY);
+            }
+
+            function draw(e) {
+                if (!isDrawing) return;
+                const [x, y] = getCoordinates(e);
+                drawLine(lastX, lastY, x, y);
+                [lastX, lastY] = [x, y];
+            }
+
+            function stopDrawing() {
+                isDrawing = false;
+            }
+
+            function getCoordinates(e) {
+                const rect = canvas.getBoundingClientRect();
+                const scaleX = canvas.width / rect.width;
+                const scaleY = canvas.height / rect.height;
+                const x = Math.floor((e.clientX - rect.left) * scaleX / pixelSize);
+                const y = Math.floor((e.clientY - rect.top) * scaleY / pixelSize);
+                return [x, y];
+            }
+
+            function drawPixel(x, y) {
+                if (x >= 0 && x < gridSize && y >= 0 && y < gridSize) {
+                    pixelGrid[y][x] = 1;
+                    renderGrid();
+                    updatePixelData();
+                    showClearButton();
+                }
+            }
+
+            function drawLine(x0, y0, x1, y1) {
+                const dx = Math.abs(x1 - x0);
+                const dy = Math.abs(y1 - y0);
+                const sx = (x0 < x1) ? 1 : -1;
+                const sy = (y0 < y1) ? 1 : -1;
+                let err = dx - dy;
+
+                while (true) {
+                    drawPixel(x0, y0);
+
+                    if (x0 === x1 && y0 === y1) break;
+                    const e2 = 2 * err;
+                    if (e2 > -dy) {
+                        err -= dy;
+                        x0 += sx;
+                    }
+                    if (e2 < dx) {
+                        err += dx;
+                        y0 += sy;
+                    }
+                }
+            }
+
+            function handleCanvasTouch(e) {
+                e.preventDefault();
+                const touch = e.touches[0];
+                const mouseEvent = new MouseEvent(
+                    e.type === 'touchstart' ? 'mousedown' : 
+                    e.type === 'touchmove' ? 'mousemove' : 'mouseup',
+                    {
+                        clientX: touch.clientX,
+                        clientY: touch.clientY
+                    }
+                );
+                canvas.dispatchEvent(mouseEvent);
+            }
+
+            function showClearButton() {
+                clearButton.style.display = 'block';
+            }
+
+            function clearCanvas() {
+                clearButton.classList.add('spin');
+                setTimeout(() => {
+                    pixelGrid = Array(gridSize).fill().map(() => Array(gridSize).fill(0));
+                    renderGrid();
+                    updatePixelData();
+                    clearButton.classList.remove('spin');
+                    clearButton.style.display = 'none';
+                }, 300);
+            }
+
+            function renderGrid() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                for (let y = 0; y < gridSize; y++) {
+                    for (let x = 0; x < gridSize; x++) {
+                        if (pixelGrid[y][x] === 1) {
+                            ctx.fillStyle = 'black';
+                            ctx.fillRect(x * pixelSize, y * pixelSize, pixelSize, pixelSize);
+                        }
+                    }
+                }
+            }
+
+            function updatePixelData() {
+                pixelDataInput.value = JSON.stringify(pixelGrid);
+            }
+        });
+    </script>
 </body>
 </html>

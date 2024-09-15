@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Write a Message Card</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <style>
+        .message-box, textarea {
+            font-family: 'Monogram', monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="circle circle-1"></div>
+        <div class="circle circle-2"></div>
+        <div class="content">
+            <h1>write a message,</h1>
+            <h2>any message...</h2>
+            <div class="message-box">
+                <span class="quote quote-left">"</span>
+                <textarea rows="4" placeholder="Type your message here"></textarea>
+                <p class="signature">- <input type="text" placeholder="Your name" style="font-family: 'Monogram', monospace;"></p>
+                <span class="quote quote-right">"</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
