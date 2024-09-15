@@ -5,46 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Submit a Message</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
-
-
 </head>
-<body class="bg-gray-100">
-    <div class="container mx-auto px-4 py-8">
-        <h1 class="text-3xl font-bold mb-6 text-center">Submit a Message</h1>
-        <form action="/submit" method="POST" class="max-w-lg mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-            <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
-                    Name:
-                </label>
-                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" id="name" name="name" required>
+<body>
+    <div class="container">
+        <div class="circle circle-1"></div>
+        <div class="circle circle-2"></div>
+        <div class="content">
+            <h1>submit a message,</h1>
+            <h2>share your thoughts...</h2>
+            <div class="message-box">
+                <form action="/submit" method="POST">
+                    <textarea id="message" name="message" rows="4" placeholder="Your message" required></textarea>
+                    <input type="text" id="name" name="name" placeholder="Your name" required>
+                    <input type="datetime-local" id="datetime" name="datetime" required>
+                    <button type="submit">Submit</button>
+                </form>
             </div>
-            
-            <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="message">
-                    Message:
-                </label>
-                <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="message" name="message" rows="4" required></textarea>
-            </div>
-            
-            <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="datetime">
-                    Date and Time:
-                </label>
-                <div class="relative">
-                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                        <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
-                    </div>
-                    <input datepicker datepicker-buttons type="text" id="datetime" name="datetime" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5" placeholder="Select date and time" required>
-                </div>
-            </div>
-            
-            <div class="flex items-center justify-between">
-                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
-                    Submit
-                </button>
-            </div>
-        </form>
+        </div>
     </div>
-
 </body>
 </html>

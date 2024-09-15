@@ -1,0 +1,83 @@
+
+        @font-face {
+            font-family: 'Monogram';
+            src: url('/static/fonts/monogram.ttf') format('truetype');
+        }
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: "monogram", monospace;
+        }
+        .container {
+            background-color: #3d3b56;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+        }
+        .circle-1 {
+            width: 150px;
+            height: 150px;
+            background-color: #9796b6;
+            top: 10%;
+            right: 10%;
+        }
+        .circle-2 {
+            width: 100px;
+            height: 100px;
+            background-color: white;
+            bottom: 15%;
+            left: 10%;
+        }
+        .content {
+            z-index: 1;
+            text-align: center;
+            color: #a49fc9;
+            max-width: 80%;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 0;
+        }
+        h2 {
+            font-size: 1.5em;
+            font-weight: normal;
+            margin-top: 0.5em;
+        }
+        .message-box {
+            background-color: #d3d3d3;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: left;
+            color: #333;
+            /* font-family: 'Monogram', 'Courier New', monospace; */
+            position: relative;
+        }
+        .quote {
+            position: absolute;
+            font-size: 4em;
+            color: #a49fc9;
+            opacity: 0.5;
+        }
+        .quote-left {
+            top: -20px;
+            left: -10px;
+        }
+        .quote-right {
+            bottom: -50px;
+            right: -10px;
+        }
+        .signature {
+            text-align: right;
+            margin-top: 10px;
+            font-style: italic;
+        }
