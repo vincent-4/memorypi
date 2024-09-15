@@ -10,7 +10,7 @@
             font-size: 20px; /* Increased base font size */
         }
         .container {
-            background-color: rgba(61, 59, 86, 0.8); /* Add some transparency */
+            background-color: rgba(61, 59, 86, 0.8);
             height: 100%;
             display: flex;
             flex-direction: column;
@@ -40,7 +40,7 @@
         .content {
             z-index: 1;
             text-align: center;
-            color: #a49fc9;
+            color: #d0c9ff;
             max-width: 90%; /* Increased max-width */
         }
         h1 {
@@ -53,7 +53,7 @@
             margin-top: 0.7em; /* Slightly increased margin */
         }
         .message-box {
-            background-color: rgba(211, 211, 211, 0.9); /* Add some transparency */
+            background-color: rgba(165, 173, 216, 0.9);
             border-radius: 15px; /* Increased border radius */
             padding: 30px; /* Increased padding */
             margin-top: 30px; /* Increased margin */
@@ -72,7 +72,7 @@
         .quote {
             position: absolute;
             font-size: 5em; /* Increased font size */
-            color: #a49fc9;
+            color: #beb6ff;
             opacity: 0.5;
         }
         .quote-left {
@@ -96,11 +96,12 @@
             width: 100%;
             margin-bottom: 10px;
             outline: none;
-            border: none; /* Add this line to remove the default border */
+            border: none;
+            border-radius: 5px;
         }
         /* Optionally, add styles for focus state */
         input:focus, textarea:focus {
-            border: 1px solid #a49fc9; /* Add a subtle border when focused */
+            border: 1px solid #9fb9fa; /* Add a subtle border when focused */
         }
         button {
             font-family: 'Monogram', monospace;

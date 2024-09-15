@@ -56,7 +56,10 @@ document.addEventListener('DOMContentLoaded', () => {
         headerText.style.opacity = 0; // Hide header text completely
         setTimeout(() => {
             sendMessage();
-            resetPosition();
+            setTimeout(()=> {
+                resetPosition();
+            }, 3500)
+            
         }, 300);
     }
 
@@ -134,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
             cake.style.opacity = '1';
             cake.style.transform = 'translate(-50%, -50%) scale(0)';
             // Load new message menu
-            resetPosition();
+            //resetPosition();
         }, 3100);
     }
 
