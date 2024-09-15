@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const messageBox = document.querySelector('.message-box');
+    const canvas = document.getElementById('drawingCanvas');
     let startY, currentY, isDragging = false;
 
     messageBox.addEventListener('touchstart', startDrag);
@@ -11,6 +12,10 @@ document.addEventListener('DOMContentLoaded', () => {
     messageBox.addEventListener('mouseup', endDrag);
 
     function startDrag(e) {
+        // Prevent dragging if the event target is the canvas or its child
+        if (e.target === canvas || canvas.contains(e.target)) {
+            return;
+        }
         startY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
         currentY = startY; // Initialize currentY
         isDragging = true;
@@ -18,6 +23,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function drag(e) {
+        // Prevent dragging if the event target is the canvas or its child
+        if (e.target === canvas || canvas.contains(e.target)) {
+            return;
+        }
         if (!isDragging) return;
         e.preventDefault();
         currentY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
@@ -25,7 +34,11 @@ document.addEventListener('DOMContentLoaded', () => {
         messageBox.style.transform = `translateY(-${Math.max(0, deltaY)}px)`;
     }
 
-    function endDrag() {
+    function endDrag(e) {
+        // Prevent dragging if the event target is the canvas or its child
+        if (e.target === canvas || canvas.contains(e.target)) {
+            return;
+        }
         if (!isDragging) return;
         isDragging = false;
         const deltaY = startY - currentY;
