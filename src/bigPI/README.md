@@ -6,19 +6,7 @@ This device runs the webserver and hosts the website where users can upload thei
 ## Delpoy
 
 
-Using node v20.x:
-
-```
-npm install
-```
-
-and then: 
-
-```
-npm run build
-```
-
-after this, we create a virtualenv:
+Using python 3.10.x, we create a virtualenv:
 
 ```
 virtualenv env --python=python3.10
