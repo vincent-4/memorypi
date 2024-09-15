@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Submit a Message</title>
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+
 
 </head>
 <body class="bg-gray-100">
@@ -46,14 +46,5 @@
         </form>
     </div>
 
-    <script>
-        // Initialize the datepicker
-        const datepickerEl = document.getElementById('datetime');
-        new Datepicker(datepickerEl, {
-            // options
-            enableTime: true,
-            dateFormat: "Y-m-d H:i",
-        });
-    </script>
 </body>
 </html>
