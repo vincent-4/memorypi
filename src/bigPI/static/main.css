@@ -89,6 +89,26 @@
             font-style: italic;
             font-size: 1.1em; /* Increased font size */
         }
+
+        .animated-text {
+            font-size: 24px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s forwards;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+
         input, textarea {
             font-family: 'Monogram', monospace;
             font-size: 1.2em;
