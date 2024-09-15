@@ -129,10 +129,34 @@
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-5px); }
         }
+        #candyContainer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        .candy {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-image: url("{{ url_for('static', filename='art/candy.png') }}");
+            background-size: contain;
+            background-repeat: no-repeat;
+            animation: fall linear;
+        }
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
     </style>
     <script src="{{ url_for('static', filename='swipe.js') }}"></script>
 </head>
 <body>
+    <div id="candyContainer"></div>
     <div class="container">
         <div class="circle circle-1"></div>
         <div class="circle circle-2"></div>

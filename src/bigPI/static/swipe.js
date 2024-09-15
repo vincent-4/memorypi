@@ -3,19 +3,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('drawingCanvas');
     let startY, currentY, isDragging = false;
 
-    messageBox.addEventListener('touchstart', startDrag);
-    messageBox.addEventListener('touchmove', drag);
-    messageBox.addEventListener('touchend', endDrag);
+    // Add these lines to get the header text element
+    const headerText = document.querySelector('.header-text');
 
-    messageBox.addEventListener('mousedown', startDrag);
-    messageBox.addEventListener('mousemove', drag);
-    messageBox.addEventListener('mouseup', endDrag);
+    // Use document instead of messageBox for event listeners
+    document.addEventListener('touchstart', startDrag, { passive: false });
+    document.addEventListener('touchmove', drag, { passive: false });
+    document.addEventListener('touchend', endDrag);
+
+    document.addEventListener('mousedown', startDrag);
+    document.addEventListener('mousemove', drag);
+    document.addEventListener('mouseup', endDrag);
 
     function startDrag(e) {
         // Prevent dragging if the event target is the canvas or its child
         if (e.target === canvas || canvas.contains(e.target)) {
             return;
         }
+        e.preventDefault(); // Prevent default touch behavior
         startY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
         currentY = startY; // Initialize currentY
         isDragging = true;
@@ -23,22 +28,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function drag(e) {
-        // Prevent dragging if the event target is the canvas or its child
-        if (e.target === canvas || canvas.contains(e.target)) {
-            return;
-        }
         if (!isDragging) return;
         e.preventDefault();
         currentY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
         const deltaY = startY - currentY;
         messageBox.style.transform = `translateY(-${Math.max(0, deltaY)}px)`;
+
+        // Adjust header text opacity based on swipe progress
+        const progress = Math.min(deltaY / (window.innerHeight / 3), 1);
+        headerText.style.opacity = 1 - progress;
     }
 
     function endDrag(e) {
-        // Prevent dragging if the event target is the canvas or its child
-        if (e.target === canvas || canvas.contains(e.target)) {
-            return;
-        }
         if (!isDragging) return;
         isDragging = false;
         const deltaY = startY - currentY;
@@ -52,6 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function swipeUp() {
         messageBox.style.transform = `translateY(-${window.innerHeight}px)`;
+        headerText.style.opacity = 0; // Hide header text completely
         setTimeout(() => {
             sendMessage();
             resetPosition();
@@ -62,6 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const messageContent = document.querySelector('textarea').value;
         const name = document.querySelector('#name').value;
         const datetime = document.querySelector('#datetime').value;
+        const pixelData = document.querySelector('#pixelData').value;
 
         if (!messageContent || !name || !datetime) {
             alert('Please fill in all fields before submitting.');
@@ -76,7 +79,8 @@ document.addEventListener('DOMContentLoaded', () => {
             body: new URLSearchParams({
                 'message': messageContent,
                 'name': name,
-                'datetime': datetime
+                'datetime': datetime,
+                'pixelData': pixelData
             })
         })
         .then(response => {
@@ -86,6 +90,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.querySelector('textarea').value = '';
                 document.querySelector('#name').value = '';
                 document.querySelector('#datetime').value = '';
+                document.querySelector('#pixelData').value = '';
+                // Trigger candy rain
+                createCandyRain();
             } else {
                 console.error('Failed to send message');
                 alert('Failed to send message. Please try again.');
@@ -100,6 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function resetPosition() {
         messageBox.style.transition = 'none';
         messageBox.style.transform = 'translateY(100%)';
+        headerText.style.opacity = 1; // Show header text again
         setTimeout(() => {
             messageBox.style.transition = 'transform 0.7s ease-out';
             messageBox.style.transform = 'translateY(0)';
@@ -109,5 +117,24 @@ document.addEventListener('DOMContentLoaded', () => {
     function smoothResetPosition() {
         messageBox.style.transition = 'transform 0.3s ease-out';
         messageBox.style.transform = 'translateY(0)';
+        headerText.style.opacity = 1; // Ensure header text is fully visible
+    }
+
+    function createCandyRain() {
+        const candyContainer = document.getElementById('candyContainer');
+        const candyCount = 50;
+
+        for (let i = 0; i < candyCount; i++) {
+            const candy = document.createElement('div');
+            candy.className = 'candy';
+            candy.style.left = `${Math.random() * 100}vw`;
+            candy.style.animationDuration = `${Math.random() * 2 + 1}s`;
+            candy.style.animationDelay = `${Math.random() * 0.5}s`;
+            candyContainer.appendChild(candy);
+
+            candy.addEventListener('animationend', () => {
+                candy.remove();
+            });
+        }
     }
 });
