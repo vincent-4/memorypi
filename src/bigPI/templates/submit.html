@@ -28,22 +28,55 @@
             bottom: 15%;
             left: 10%;
         }
+        .swipe-disclaimer {
+            text-align: center;
+            font-size: 1.4em;
+            color: rgba(255, 255, 255, 0.9);
+            margin-top: 20px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        .swipe-arrow {
+            display: inline-block;
+            font-size: 1.2em;
+            margin-left: 5px;
+            animation: updown 1s ease-in-out infinite;
+        }
+        @keyframes updown {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        .header-text {
+            text-align: left;
+            padding-left: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        .header-text h1, .header-text h2 {
+            margin: 0;
+        }
+        .message-box {
+            z-index: 2;
+        }
     </style>
+    <script src="/static/swipe.js"></script>
 </head>
 <body>
     <div class="container">
         <div class="circle circle-1"></div>
         <div class="circle circle-2"></div>
         <div class="content">
-            <h1>submit a message,</h1>
-            <h2>share your thoughts...</h2>
+            <div class="header-text">
+                <h1>submit a message,</h1>
+                <h2>share your thoughts...</h2>
+            </div>
             <div class="message-box">
                 <div class="message-box-container">
                     <form action="/submit" method="POST">
                         <textarea id="message" name="message" rows="4" placeholder="Your message" required></textarea>
                         <input type="text" id="name" name="name" placeholder="Your name" required>
                         <input type="datetime-local" id="datetime" name="datetime" required>
-                        <button type="submit">Submit</button>
+                        <div class="swipe-disclaimer">Swipe up to send your message <span class="swipe-arrow">↑</span></div>
                     </form>
                 </div>
             </div>

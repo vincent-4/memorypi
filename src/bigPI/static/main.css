@@ -60,8 +60,14 @@
             text-align: left;
             color: #333;
             font-family: 'Monogram', monospace;
-            position: relative;
-            font-size: 1.2em; /* Increased font size */
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+            user-select: none;
+            touch-action: pan-y;
         }
         .quote {
             position: absolute;
@@ -95,4 +101,19 @@
         /* Optionally, add styles for focus state */
         input:focus, textarea:focus {
             border: 1px solid #a49fc9; /* Add a subtle border when focused */
+        }
+        button {
+            font-family: 'Monogram', monospace;
+            font-size: 1.2em;
+            background-color: #9796b6;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #a49fc9;
         }
