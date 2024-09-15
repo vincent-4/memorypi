@@ -5,6 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Submit a Message</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <style>
+        body {
+            background-image: url("{{ url_for('static', filename='communicator_thing.png') }}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+        .circle {
+            background-color: white;
+            width: 20vw;
+            height: 20vw;
+            max-width: 225px;
+            max-height: 225px;
+        }
+        .circle-1 {
+            top: 10%;
+            right: 10%;
+        }
+        .circle-2 {
+            bottom: 15%;
+            left: 10%;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -14,12 +38,14 @@
             <h1>submit a message,</h1>
             <h2>share your thoughts...</h2>
             <div class="message-box">
-                <form action="/submit" method="POST">
-                    <textarea id="message" name="message" rows="4" placeholder="Your message" required></textarea>
-                    <input type="text" id="name" name="name" placeholder="Your name" required>
-                    <input type="datetime-local" id="datetime" name="datetime" required>
-                    <button type="submit">Submit</button>
-                </form>
+                <div class="message-box-container">
+                    <form action="/submit" method="POST">
+                        <textarea id="message" name="message" rows="4" placeholder="Your message" required></textarea>
+                        <input type="text" id="name" name="name" placeholder="Your name" required>
+                        <input type="datetime-local" id="datetime" name="datetime" required>
+                        <button type="submit">Submit</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

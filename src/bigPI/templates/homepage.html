@@ -5,7 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Write a Message Card</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
-    
+    <style>
+        .message-box, textarea {
+            font-family: 'Monogram', monospace;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -16,9 +20,8 @@
             <h2>any message...</h2>
             <div class="message-box">
                 <span class="quote quote-left">"</span>
-                <p>hey man, it was really nice meeting you! hope to see you again someday. hmw if you ever come back to the us: 1-(617)-253-1212* :)</p>
-                <p>*do not call this number.</p>
-                <p class="signature">- bun from massachusetts</p>
+                <textarea rows="4" placeholder="Type your message here"></textarea>
+                <p class="signature">- <input type="text" placeholder="Your name" style="font-family: 'Monogram', monospace;"></p>
                 <span class="quote quote-right">"</span>
             </div>
         </div>

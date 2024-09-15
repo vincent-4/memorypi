@@ -72,4 +72,4 @@ def submit():
 
 if __name__ == "__main__":
     init_db()  # Ensure the database is initialized
-    app.run(debug=True)
+    app.run(debug=True, port=8000)
